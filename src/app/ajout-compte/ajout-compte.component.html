@@ -1,0 +1,60 @@
+<form class="form-style-9" [formGroup]="inscription" (ngSubmit)="saveUser()">
+  <legend>Ajout nouveau compte</legend>
+  <ul>
+    <li>
+      <input type="text" formControlName="nomUtilisateur" id="nomUtilisateur" class="field-style field-full align-none"
+        placeholder="Nom d'utilisateur" />
+    </li>
+    <li>
+      <input type="text" formControlName="nom" id="nom" class="field-style field-split align-left" placeholder="Nom" />
+      <input type="text" formControlName="prenom" id="prenom" class="field-style field-split align-right"
+        placeholder="Prénom" />
+    </li>
+    <li>
+      <input type="email" formControlName="email" id="email" class="field-style field-full align-none"
+        placeholder="Email" />
+    </li>
+    <li>
+      <input type="password" formControlName="motDePasse" id="motDePasse" class="field-style field-split align-left"
+        placeholder="Mot de passe" />
+      <input type="password" formControlName="confirmMotDePasse" id="confirmMotDePasse"
+        class="field-style field-split align-right" placeholder="Confirmation mot de passe" />
+    </li>
+    <li>
+      <label>Role:</label>
+      <select formControlName="rolesControl" id="rolesControl">
+        <option [value]="role" *ngFor="let role of roles">{{role}}</option>
+      </select>
+    </li>
+    <li>
+      <p class="erreur">
+        <button type=submit [disabled]="!inscription.valid">Ajouter</button>
+      </p>
+    </li>
+  </ul>
+  <div *ngIf="!inscription.valid" class="erreur">
+    <div *ngIf="inscription.get('nomUtilisateur').invalid && inscription.get('nomUtilisateur').errors.required">- Le nom
+      d'utilisateur est requis.</div>
+    <div *ngIf="inscription.get('nomUtilisateur').invalid && inscription.get('nomUtilisateur').errors.minlength">- Le
+      nom d'utilisateur doit faire une taille minimum de 4 caractères.</div>
+    <div *ngIf="inscription.get('nom').invalid && inscription.get('nom').errors.required">- Le nom est requis.</div>
+    <div *ngIf="inscription.get('nom').invalid && inscription.get('nom').errors.minlength">- Le nom doit faire une
+      taille minimum de 4 caractères.</div>
+    <div *ngIf="inscription.get('prenom').invalid && inscription.get('prenom').errors.required">- Le prénom est requis.
+    </div>
+    <div *ngIf="inscription.get('prenom').invalid && inscription.get('prenom').errors.minlength">- Le prénom doit faire
+      une taille minimum de 4 caractères.</div>
+    <div *ngIf="inscription.get('email').invalid && inscription.get('email').errors.required">- L'email est requise.
+    </div>
+    <div *ngIf="inscription.get('email').invalid && inscription.get('email').errors.email">- L'email n'est pas valide
+    </div>
+    <div *ngIf="inscription.get('motDePasse').invalid && inscription.get('motDePasse').errors.required">- Le mot de
+      passe est requis.</div>
+    <div *ngIf="inscription.get('motDePasse').invalid && inscription.get('motDePasse').errors.minlength">- Le mot de
+      passe doit faire une taille minimum de 3 caractères</div>
+    <div *ngIf="inscription.get('confirmMotDePasse').invalid && inscription.get('confirmMotDePasse').errors.required">- Le mot de
+      passe de confirmation est requis.</div>
+    <div *ngIf="inscription.get('confirmMotDePasse').invalid && inscription.get('confirmMotDePasse').errors.minlength">- Le mot de
+      passe de confirmation doit faire une taille minimum de 3 caractères</div>
+  </div>
+</form>

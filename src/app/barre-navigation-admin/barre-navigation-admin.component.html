@@ -1,0 +1,15 @@
+<ul id="nav">
+  <li><a routerLink="listing-compte">Gestion des comptes</a></li>
+  <li><a routerLink="traitement-suppression">Traitement signalement</a></li>
+  <li><a routerLink="ajout-compte">Créer compte</a></li>
+  <li><a (click)="showModal('Déconnexion', 'Voulez-vous vous déconnecter ?')">Se déconnecter</a></li>
+</ul>
+<app-modal #childModal [title]="title" [content]="content">
+  <div class="modal-footer">
+    <div class="pull-left">
+      <button class="btn btn-default" (click)="childModal.hide()"> Cancel </button>
+      <button type="button" class="btn btn-danger" (click)="action(); childModal.hide();">Ok</button>
+    </div>
+  </div>
+</app-modal>
+<router-outlet></router-outlet>

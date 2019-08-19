@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div style="float: left">
+    <div class="alert alert-secondary" role="alert">
+      <h4>Administrateur</h4>
+      <p class="lead">Total de <b>{{totalAcountAdmin}}</b> comptes créer.</p>
+    </div>
+    <div class="alert alert-secondary" role="alert">
+      <h4>Professionnel</h4>
+      <p class="lead">Total de <b>{{totalAcountPro}}</b> comptes créer.</p>
+    </div>
+    <div class="alert alert-secondary" role="alert">
+      <h4>Utilisateur classique</h4>
+      <p class="lead">Total de <b>{{totalAcountSub}}</b> comptes créer.</p>
+    </div>
+  </div>
+  <div>
+    <nav class="navbar navbar-light bg-light">
+      <form class="form-inline" [formGroup]="recherche" (ngSubmit)="onSubmit()">
+        <label for="nomUtilisateur">Rechercher un compte sur base d'un pseudo : </label>
+        <input class="form-control mr-sm-2" type="search" placeholder="Nom d'utilisateur" aria-label="Search"
+          formControlName="nomUtilisateur">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+      </form>
+    </nav>
+    <div *ngIf="userFound" class="card">
+      <div class="card-header">
+        Information compte
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Nom d'utilisateur : {{userFound.pseudo}}</h5>
+          <p class="card-text">
+            Nom : {{userFound.nom}}
+          </p>
+          <p class="card-text">
+            Prénom : {{userFound.prenom}}
+          </p>
+          <p class="card-text">
+            Email : {{userFound.email}}
+          </p>
+          <p class="card-text">
+            Type de compte : {{userFound.role}}
+          </p>
+          <button (click)="showModal('Suppression', 'Voulez-vous Supprimer ce compte ?');" *ngIf="userFound.role != 'Admin'" style="float: right;" type="button" class="btn btn-danger">Supprimer le compte</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal #childModal [title]="title" [content]="content">
+  <div class="modal-footer">
+      <div class="pull-left">
+          <button class="btn btn-default" (click)="childModal.hide();"> Non </button>
+          <button type="button" class="btn btn-danger" (click)="deleteAcount(); childModal.hide();">Oui</button>
+      </div>
+  </div>
+</app-modal>

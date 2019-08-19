@@ -1,0 +1,118 @@
+<div class="container">
+    <div *ngIf="!eventFound" class="alert alert-danger" role="alert">
+        Vous n'avez aucun événement de créer.
+    </div>
+
+    <div *ngFor="let event of evenements; let j=index" class="card mb-3">
+        <div class="card-body">
+
+            <h2 class="card-title">{{event.nom}}
+                <button *ngIf="!event.displayInfo" type="button" class="btn btn-outline-info"
+                    (click)="event.displayInfo = true;">Info</button>
+                <button *ngIf="event.displayInfo" type="button" class="btn btn-outline-info"
+                    (click)="event.displayInfo = false;">Caché info</button>
+            </h2>
+            <table>
+                <tr>
+                    <td style="width: 600px;">
+                        <p>Date de création/modification : {{event.dateCreationEvenement | date}}</p>
+                        <h3>Présentations:</h3>
+                        <p *ngFor="let presentation of event.presentation; let i=index">
+                            {{i+1}}) Début: {{presentation.dateHeureDebut | date:'medium'}}
+                            <span>-----</span>
+                            Fin: {{presentation.dateHeureFin | date:'medium'}}
+                        </p>
+                    </td>
+                    <td class="right">
+                        <p class="bold">Nombre de j'aimes : {{event.nbJaime}}</p>
+                        <p class="bold">Nombre de participants : {{event.nbParticipant}}</p>
+                    </td>
+                </tr>
+                <tr *ngIf="event.displayInfo">
+                    <h4>Information:</h4> {{event.description}}
+                </tr>
+                <tr>
+                    <td>
+                        <button *ngIf="!event.display" class="btn btn-primary" (click)="isDisplay(j, event.id)">Afficher
+                            commentaires</button>
+                        <button *ngIf="event.display" class="btn btn-primary" (click)="notDisplay(j)">Cacher
+                            commentaires</button>
+                    </td>
+                    <td class="right">
+                        <p align=right>
+                            <button class="btn btn-primary"
+                                (click)="showModal('Modifier événement', 'Voulez-vous modifier cet événement ?', 1, event)">Modifier</button>
+                            <button type="button" class="btn btn-outline-danger"
+                                (click)="showModal('Suppression événement', 'Voulez-vous supprimer cet événement ?', 2, event.id)">Supprimer</button>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="event.display">
+            <div *ngIf="event.display && event.commentaires != undefined">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Commentaire</th>
+                            <th scope="col">Signalement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let commentaire of event.commentaires; let i=index">
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{commentaire.auteurId}}</td>
+                            <td>{{commentaire.texte}}</td>
+                            <td>
+                                <p *ngIf="!commentaire.signaler">
+                                    <button
+                                        (click)="showModal('Signalement commentaire', 'Voulez-vous signaler ce commentaire pour demande de suppression ?', 3, commentaire)">Signaler</button>
+                                </p>
+                                <p class="demande" *ngIf="commentaire.signaler == 1" align=right>
+                                    En attende de traitement de signalement.
+                                </p>
+                                <p class="signaler" *ngIf="commentaire.signaler == 2" align=right>
+                                    La demande de suppression de ce commentaire a été rejeter par les administrateurs.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p align=center>
+                    <button [disabled]="pageIndex <= 0" class="btn btn-primary"
+                        (click)="previousCom(j, event.id)">Précédent</button>
+                    <button [disabled]="pageIndex >= numberPage-1" class="btn btn-primary"
+                        (click)="followingCom(j, event.id)">Suivant</button>
+                </p>
+                <p align=center>
+                    page numéro: {{pageIndex+1}}/{{numberPage}}
+                </p>
+            </div>
+            <div *ngIf="!commentFound" class="alert alert-danger" role="alert">
+                Pas de commentaires.
+            </div>
+        </div>
+    </div>
+    <div *ngIf="evenements.length != 0">
+        <p align=center>
+            <button [disabled]="pageIndexEvent <= 0" class="btn btn-primary"
+                (click)="previousEvent()">Précédent</button>
+            <button [disabled]="pageIndexEvent >= numberPageEvent-1" class="btn btn-primary"
+                (click)="followingEvent()">Suivant</button>
+        </p>
+        <p align=center>
+            page numéro: {{pageIndexEvent+1}}/{{numberPageEvent}}
+        </p>
+    </div>
+</div>
+<app-modal #childModal [title]="title" [content]="content">
+    <div class="modal-footer">
+        <div class="pull-left">
+            <button class="btn btn-default" (click)="childModal.hide()"> Cancel </button>
+            <button type="button" class="btn btn-danger" (click)="action(); childModal.hide();">Ok</button>
+        </div>
+    </div>
+</app-modal>
+<router-outlet></router-outlet>

@@ -1,0 +1,76 @@
+<form class="form-style-9" [formGroup]="formEvent" (ngSubmit)="saveEvent()">
+    <legend *ngIf="this.eventService.getAjouter()">Ajout nouvel événement</legend>
+    <legend *ngIf="!this.eventService.getAjouter()">Modification événement</legend>
+    <ul>
+        <li>
+            <input type="text" formControlName="nomEvent" class="field-style field-full align-none"
+                placeholder="Nom de l'évènement" />
+        </li>
+        <li>
+            <textarea formControlName="description" class="field-style"
+                placeholder="Description de l'évènement"></textarea>
+        </li>
+        <li>
+            <input type="text" formControlName="rue" class="field-style field-split align-left" placeholder="Rue" />
+            <input type="text" formControlName="numero" class="field-style field-split align-right"
+                placeholder="Numéro" />
+        </li>
+        <li>
+            <input type="text" formControlName="codePostal" class="field-style field-split align-left"
+                placeholder="Code postal" />
+            <input type="text" formControlName="localite" class="field-style field-split align-right"
+                placeholder="Localité" />
+        </li>
+        <li>
+            <label>Catégorie:</label>
+            <select formControlName="categorie" id="categorie">
+                <option [value]="libCat.id" *ngFor="let libCat of categories">{{libCat.libelle}}</option>
+            </select>
+        </li>
+        <li>
+            <p *ngIf="this.eventService.getAjouter()" class="erreur">
+                <button type=submit [disabled]="!formEvent.valid">Ajouter</button>
+            </p>
+            <p *ngIf="!this.eventService.getAjouter()" class="erreur">
+                <button type=submit [disabled]="!formEvent.valid">Modifier</button>
+                <button style="float: right;" type='button' class="btn btn-success" routerLink="ajout-presentation">Aller directement aux présentations</button>
+            </p>
+        </li>
+    </ul>
+    <p *ngIf="alreadyExist" class="erreur">
+        <i>Erreur : </i>
+        Le nom de l'événement existe déjâ.
+    </p>
+    <div *ngIf="!formEvent.valid" class="erreur">
+        <div *ngIf="this.formEvent.get('nomEvent').invalid && formEvent.get('nomEvent').hasError('required')">- Le nom
+            de l'événement est requis.</div>
+        <div *ngIf="this.formEvent.get('nomEvent').invalid && formEvent.get('nomEvent').hasError('minlength')">- Le nom
+            de l'événement doit faire une taille minimum de 4 caractères.</div>
+        <div *ngIf="formEvent.get('description').invalid && formEvent.get('description').errors.required">- La
+            description est requise.</div>
+        <div *ngIf="formEvent.get('description').invalid && formEvent.get('description').errors.minlength">- La
+            description doit faire une taille minimum de 10 caractères.</div>
+        <div *ngIf="formEvent.get('rue').invalid && formEvent.get('rue').errors.required">- La rue est requise.</div>
+        <div *ngIf="formEvent.get('rue').invalid && formEvent.get('rue').errors.minlength">- La rue doit faire une
+            taille minimum de 4 caractères.</div>
+        <div *ngIf="formEvent.get('numero').invalid && formEvent.get('numero').errors.required">- Le numéro est requis.
+        </div>
+        <div *ngIf="formEvent.get('codePostal').invalid && formEvent.get('codePostal').errors.required">- Le code postal
+            est requis.</div>
+        <div *ngIf="formEvent.get('codePostal').invalid && formEvent.get('codePostal').errors.pattern">- Le code postal
+            doit être composé uniquement de 4 chiffres.</div>
+        <div *ngIf="formEvent.get('localite').invalid && formEvent.get('localite').errors.required">- La localité est
+            requise.</div>
+        <div *ngIf="formEvent.get('localite').invalid && formEvent.get('localite').errors.pattern">- La localité doit
+            être composé uniquement de lettres.</div>
+    </div>
+</form>
+<app-modal #childModal [title]="title" [content]="content">
+    <div class="modal-footer">
+        <div class="pull-left">
+            <button class="btn btn-default" (click)="hide()"> Non </button>
+            <button type="button" class="btn btn-danger" (click)="action(); childModal.hide();">Oui</button>
+        </div>
+    </div>
+</app-modal>
+<router-outlet></router-outlet>

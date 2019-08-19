@@ -1,0 +1,50 @@
+<h2>
+  Commentaires signaler:
+</h2>
+<div class="container">
+  <div *ngIf="commentairesSignaler.length != 0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Evénement</th>
+          <th scope="col">Ecrit par</th>
+          <th scope="col">Commentaire</th>
+          <th scope="col">Traitement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let commentaire of commentairesSignaler; let i=index">
+          <th scope="row">{{i+1}}</th>
+          <td>
+            <button type="button" class="btn btn-outline-info"
+              (click)="displayEvent(commentaire.evenementId)">Info événement</button>
+          </td>
+          <td>{{commentaire.auteurId}}</td>
+          <td>{{commentaire.texte}}</td>
+          <td>
+            <button type="button" class="btn btn-outline-warning" (click)="rejectCom(commentaire)">Rejeter</button>
+            <button type="button" class="btn btn-outline-danger" (click)="deleteCom(commentaire)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p align=center>
+        <button [disabled]="pageIndex <= 0" class="btn btn-primary" (click)="previous()">Précédent</button>
+        <button [disabled]="pageIndex >= numberPage-1" class="btn btn-primary" (click)="following()">Suivant</button>
+    </p>
+    <p align=center>
+        page numéro: {{pageIndex+1}}/{{numberPage}}
+    </p>
+  </div>
+  <div *ngIf="commentairesSignaler.length == 0">
+    Pas de signalement.
+  </div>
+</div>
+<app-modal #childModal [title]="title" [content]="content">
+    <div class="modal-footer">
+        <div class="pull-left">
+            <button type="button" class="btn btn-danger" (click)="childModal.hide();">Ok</button>
+        </div>
+    </div>
+</app-modal>

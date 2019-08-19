@@ -1,0 +1,12 @@
+<form class="container" [formGroup]="connexion" (ngSubmit)="onSubmit()">
+  <legend>Connectez vous</legend>
+  <div class="form-group">
+    <label>Nom d'utilisateur:</label>
+    <input class="form-control" type="text" formControlName="nomUtilisateur"/>
+  </div>
+  <div class="form-group">
+    <label>Mot de passe:</label>
+    <input class="form-control" type="password" formControlName="motDePasse"/>
+  </div>
+  <button type=submit class="btn btn-primary" [disabled]="!connexion.valid">Se connecter</button>
+</form>

@@ -1,0 +1,28 @@
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background:#6495ED ;
+    }
+   li {
+    float:left; 
+    border-left:1px solid black;
+    }
+   ul li a{
+    display:block;
+    float:left;  
+    padding-left: 20px;
+    padding-right: 20px; 
+    line-height:50px; /*hauteur de l'image de fond*/
+    color: white;
+    text-decoration:none;
+    text-align:center;
+    }
+   ul li:hover {
+    background:#87CEFA;
+    color:white;
+    } 
+    h2{
+        color: #6495ED;
+    }

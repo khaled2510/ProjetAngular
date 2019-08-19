@@ -1,0 +1,51 @@
+<form class="form-style-9" [formGroup]="formPresentation" (ngSubmit)="savePresentation()">
+  <legend>Ajouter les présentations de l'événement</legend><br>
+  <ul>
+    <li>
+      <label>Date et heure de début:</label>
+      <input type="datetime-local" formControlName="dateDebut" placeholder="yyyy-MM-ddTHH:mm:ss"
+        min="2019-01-01T00:00:00" max="2025-12-31T00:00:00" />
+    </li>
+    <li>
+      <label>Date et heure de fin:</label>
+      <input type="datetime-local" formControlName="dateFin" placeholder="yyyy-MM-ddTHH:mm:ss" min="2019-01-01T00:00:00"
+        max="2025-12-31T00:00:00" />
+    </li>
+    <li>
+      <button type=submit [disabled]="!formPresentation.valid">Ajouter</button>
+    </li>
+  </ul>
+</form>
+<div class="container">
+  <div *ngIf="presentations.length != 0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Date/heure de début</th>
+          <th scope="col">Date/heure de fin</th>
+          <th scope="col">Suppression</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let presentation of presentations; let i=index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{presentation.dateHeureDebut | date:'medium'}}</td>
+          <td>{{presentation.dateHeureDebut | date:'medium'}}</td>
+          <td>
+            <button type="button" class="btn btn-outline-danger"
+              (click)="showModal(i);">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-modal #childModal [title]="title" [content]="content">
+  <div class="modal-footer">
+    <div class="pull-left">
+      <button class="btn btn-default" (click)="childModal.hide();">Non</button>
+      <button type="button" class="btn btn-danger" (click)="action(); childModal.hide();">Oui</button>
+    </div>
+  </div>
+</app-modal>

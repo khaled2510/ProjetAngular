@@ -1,0 +1,28 @@
+h2{
+    color:rgb(238, 135, 0);
+}
+button{
+    margin: 5px;
+}
+
+.signaler{
+	color: #D83F3D;
+}
+
+.demande{
+	color: blue;
+}
+
+div.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.right{
+    text-align: right;
+    width: 600px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
